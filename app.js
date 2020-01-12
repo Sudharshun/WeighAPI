@@ -6,7 +6,6 @@ const express = require("express"),
 
 const index = require("./routes/index");
 
-//user server
 app.use(index);
 
 io.on("connection", onConnection);
@@ -19,10 +18,11 @@ function onConnection(socket) {
 //Serial port to CMD
 const SerialPort = require("serialport");
 const Readline = SerialPort.parsers.Readline;
-const usbport = new SerialPort("COM1", { baudRate: 4800 });
+const usbport = new SerialPort("COM3", { baudRate: 9600 });
 const parser = usbport.pipe(new Readline());
 parser.on("data", function(data) {
   io.emit("data", { data: data });
+  console.log('Weight is ',data);
 });
 
 //Server start
